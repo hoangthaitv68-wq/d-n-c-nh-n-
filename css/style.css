@@ -77,3 +77,12 @@ a{
 h1,h2,h3,li{
     text-align:center;
 }
+#hoten{
+	taxt-transform:/*in hoa*/
+	font-size:32pt:/* cỡ chữ* /
+	font-weight:bolder;/*in đậm*/
+	color:#00ff00:/*màu chữ* /
+}
+.tieude{
+	text-transform:uppercase;
+	/*
