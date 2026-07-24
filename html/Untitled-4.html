@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yummy Fast Food - Đặt Đồ Ăn Online</title>
+
+    <!-- Thư viện FontAwesome & Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+    /* =========================
+       CÀI ĐẶT CHUNG
+    ========================= */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #fffaf5;
+        color: #2b231d;
+    }
+
+    /* =========================
+       NAVBAR
+    ========================= */
+    .navbar {
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 4px 20px rgba(180, 60, 20, 0.08);
+        padding: 14px 0;
+    }
+    .navbar-brand {
+        font-size: 28px;
+        font-weight: 800;
+        color: #d32f2f !important;
+        letter-spacing: 0.5px;
+    }
+    .navbar-brand i {
+        color: #ff5722;
+    }
+    .btn-cart-nav {
+        background: #d32f2f;
+        color: white;
+        border-radius: 25px;
+        padding: 8px 20px;
+        font-weight: 600;
+        border: none;
+        position: relative;
+    }
+    .btn-cart-nav:hover {
+        background: #b71c1c;
+        color: white;
+    }
+    .badge-cart {
+        background: #ff9800;
+        color: white;
+        border-radius: 50%;
+        padding: 2px 7px;
+        font-size: 12px;
+        margin-left: 5px;
+    }
+
+    /* =========================
+       BANNER
+    ========================= */
+    .banner {
+        min-height: 460px;
+        display: flex;
+        align-items: center;
+        padding: 60px 0;
+        color: white;
+        background: linear-gradient(135deg, #d32f2f 0%, #ff5722 50%, #ff9800 100%);
+    }
+    .banner h1 {
+        font-size: 48px;
+        font-weight: 800;
+        margin-bottom: 18px;
+    }
+    .banner p {
+        font-size: 18px;
+        color: #fff3e0;
+        max-width: 500px;
+    }
+    .banner img {
+        width: 100%;
+        max-height: 340px;
+        object-fit: cover;
+        border-radius: 25px;
+        border: 6px solid rgba(255,255,255,0.3);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    }
+    .btn-food {
+        display: inline-block;
+        margin-top: 15px;
+        padding: 12px 28px;
+        background: #ffffff;
+        color: #d32f2f;
+        border-radius: 30px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+    .btn-food:hover {
+        background: #2b231d;
+        color: white;
+        transform: translateY(-3px);
+    }
+
+    /* =========================
+       TIÊU ĐỀ SECTION
+    ========================= */
+    .section-title {
+        text-align: center;
+        margin: 55px 0 30px;
+    }
+    .section-title h2 {
+        color: #d32f2f;
+        font-size: 32px;
+        font-weight: 800;
+    }
+    .section-title p {
+        color: #7d6e65;
+    }
+
+    /* =========================
+       DANH MỤC LỌC
+    ========================= */
+    .category-card {
+        background: white;
+        padding: 18px 10px;
+        text-align: center;
+        border-radius: 20px;
+        cursor: pointer;
+        border: 2px solid #ffe0b2;
+        transition: all 0.3s ease;
+    }
+    .category-card:hover, .category-card.active {
+        background: #d32f2f;
+        color: white;
+        border-color: #d32f2f;
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(211, 47, 47, 0.2);
+    }
+    .category-icon {
+        font-size: 26px;
+        margin-bottom: 6px;
+        color: #ff5722;
+    }
+    .category-card:hover .category-icon, .category-card.active .category-icon {
+        color: #ffe0b2;
+    }
+
+    /* =========================
+       TÌM KIẾM
+    ========================= */
+    #searchInput {
+        border: 2px solid #ffe0b2;
+        border-radius: 30px;
+        padding: 12px 22px;
+        box-shadow: 0 4px 15px rgba(211, 47, 47, 0.05);
+    }
+    #searchInput:focus {
+        border-color: #ff5722;
+        box-shadow: 0 0 0 0.25rem rgba(255, 87, 34, 0.15);
+    }
+
+    /* =========================
+       THẺ SẢN PHẨM
+    ========================= */
+    .product-card {
+        background: #ffffff;
+        border-radius: 20px;
+        overflow: hidden;
+        border: none;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        transition: all 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(211, 47, 47, 0.15);
+    }
+    .product-img-wrap {
+        position: relative;
+        overflow: hidden;
+        height: 210px;
+    }
+    .product-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: 0.4s;
+    }
+    .product-card:hover img {
+        transform: scale(1.08);
+    }
+    .product-info {
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+    .product-info h5 {
+        color: #2b231d;
+        font-weight: 750;
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
+    .product-info p {
+        color: #7d6e65;
+        font-size: 13px;
+        flex-grow: 1;
+    }
+    .price {
+        color: #d32f2f;
+        font-size: 20px;
+        font-weight: 800;
+    }
+    .btn-detail {
+        width: 100%;
+        padding: 9px;
+        border: 2px solid #d32f2f;
+        border-radius: 25px;
+        background: transparent;
+        color: #d32f2f;
+        font-weight: 700;
+        transition: 0.3s;
+    }
+    .btn-detail:hover {
+        background: #d32f2f;
+        color: white;
+    }
+
+    /* =========================
+       GIỎ HÀNG
+    ========================= */
+    .cart-box {
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 22px;
+        border: 1px solid #ffe0b2;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    }
+    .cart-item {
+        padding: 12px 0;
+        border-bottom: 1px solid #fff3e0;
+    }
+
+    /* =========================
+       MODAL CHI TIẾT
+    ========================= */
+    .modal-content {
+        border-radius: 25px;
+        border: none;
+        overflow: hidden;
+    }
+    .modal-header {
+        border-bottom: none;
+        padding: 20px 25px 0;
+    }
+    .option-title {
+        font-weight: 700;
+        font-size: 15px;
+        color: #d32f2f;
+        margin-top: 15px;
+        margin-bottom: 8px;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+    footer {
+        background: #211915;
+        color: white;
+        padding: 50px 0 20px;
+        margin-top: 70px;
+    }
+    footer h4 { color: #ff5722; }
+    footer p { color: #b0a39c; }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="fa-solid fa-utensils"></i> Yummy Food</a>
+            <div class="d-flex align-items-center">
+                <a href="#cartSection" class="btn btn-cart-nav text-decoration-none">
+                    <i class="fa-solid fa-basket-shopping"></i> Giỏ hàng
+                    <span class="badge-cart" id="cartBadge">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- BANNER -->
+    <section class="banner">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1>Món Ăn Nóng Hổi,<br>Giao Tận Nơi Fast & Fresh</h1>
+                    <p>Thức ăn chuẩn vị, đảm bảo an toàn vệ sinh thực phẩm. Giao hàng nhanh chóng trong vòng 30 phút!</p>
+                    <a href="#menu" class="btn-food">Thưởng Thức Ngay</a>
+                </div>
+                <div class="col-md-6 text-center mt-4 mt-md-0">
+                    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&auto=format&fit=crop" alt="Food Banner">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <div class="container" id="menu">
+        
+        <!-- DANH MỤC -->
+        <div class="section-title">
+            <h2>Thực Đơn Món Ăn</h2>
+            <p>Khám phá các món ăn hấp dẫn chuẩn vị nhà làm</p>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-6 col-md-2">
+                <div class="category-card active" onclick="filterCategory('all', this)">
+                    <div class="category-icon"><i class="fa-solid fa-list"></i></div>
+                    <h6>Tất Cả</h6>
+                </div>
+            </div>
+            <div class="col-6 col-md-2">
+                <div class="category-card" onclick="filterCategory('com', this)">
+                    <div class="category-icon"><i class="fa-solid fa-bowl-rice"></i></div>
+                    <h6>Cơm Văn Phòng</h6>
+                </div>
+            </div>
+            <div class="col-6 col-md-2">
+                <div class="category-card" onclick="filterCategory('mi', this)">
+                    <div class="category-icon"><i class="fa-solid fa-bowl-food"></i></div>
+                    <h6>Mỳ & Phở</h6>
+                </div>
+            </div>
+            <div class="col-6 col-md-2">
+                <div class="category-card" onclick="filterCategory('lau', this)">
+                    <div class="category-icon"><i class="fa-solid fa-fire"></i></div>
+                    <h6>Lẩu & Nướng</h6>
+                </div>
+            </div>
+            <div class="col-6 col-md-2">
+                <div class="category-card" onclick="filterCategory('anvat', this)">
+                    <div class="category-icon"><i class="fa-solid fa-burger"></i></div>
+                    <h6>Đồ Ăn Vặt</h6>
+                </div>
+            </div>
+            <div class="col-6 col-md-2">
+                <div class="category-card" onclick="filterCategory('trangmieng', this)">
+                    <div class="category-icon"><i class="fa-solid fa-ice-cream"></i></div>
+                    <h6>Tráng Miệng</h6>
+                </div>
+            </div>
+        </div>
+
+        <!-- TÌM KIẾM -->
+        <div class="row my-4 justify-content-center">
+            <div class="col-md-6">
+                <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm món cơm, mỳ, lẩu, đồ ăn vặt..." onkeyup="searchFood()">
+            </div>
+        </div>
+
+        <!-- DANH SÁCH SẢN PHẨM -->
+        <div class="row g-4" id="productList">
+            <!-- Sản phẩm hiển thị qua JavaScript -->
+        </div>
+
+        <!-- GIỎ HÀNG SECTION -->
+        <div class="section-title" id="cartSection">
+            <h2>Giỏ Hàng Của Bạn</h2>
+        </div>
+        <div class="cart-box">
+            <div id="cartItemsList">
+                <p class="text-center text-muted m-0">Chưa có món nào trong giỏ hàng.</p>
+            </div>
+            <hr class="my-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="fs-5 fw-bold text-dark">Tổng cộng:</span>
+                <span class="fs-4 fw-bold text-danger" id="totalPrice">0đ</span>
+            </div>
+            <button class="btn btn-danger w-100 mt-3 py-2 fw-bold" style="border-radius: 25px; background: #d32f2f;" onclick="checkout()">Thanh Toán Đơn Hàng</button>
+        </div>
+
+    </div>
+
+    <!-- MODAL CHI TIẾT MÓN ĂN -->
+    <div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="modalTitle">Tên Món</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img id="modalImg" src="" class="img-fluid rounded-4 mb-3" style="width:100%; height:200px; object-fit:cover;">
+                    <p id="modalDesc" class="text-muted small"></p>
+                    
+                    <div class="d-flex justify-content-between align-items-center my-2">
+                        <span class="fw-bold">Giá món ăn:</span>
+                        <span class="text-danger fw-bold fs-5" id="modalPrice"></span>
+                    </div>
+
+                    <!-- Tùy chọn Mức Cay -->
+                    <div class="option-title">Mức Độ Cay</div>
+                    <div class="btn-group w-100" role="group">
+                        <input type="radio" class="btn-check" name="spicy" id="spicy0" value="Không cay" checked>
+                        <label class="btn btn-outline-secondary btn-sm" for="spicy0">Không cay</label>
+                        <input type="radio" class="btn-check" name="spicy" id="spicy1" value="Cay vừa">
+                        <label class="btn btn-outline-secondary btn-sm" for="spicy1">Cay vừa</label>
+                        <input type="radio" class="btn-check" name="spicy" id="spicy2" value="Cay nhiều">
+                        <label class="btn btn-outline-secondary btn-sm" for="spicy2">Cay nhiều</label>
+                    </div>
+
+                    <!-- Tùy chọn Đồ Ăn Kèm (Topping) -->
+                    <div class="option-title">Món Ăn Kèm Thêm</div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="addEgg" value="Trứng Ốp La">
+                        <label class="form-check-label" for="addEgg">Trứng Ốp La (+7.000đ)</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="addKimchi" value="Kim Chi Hàn Quốc">
+                        <label class="form-check-label" for="addKimchi">Kim Chi Hàn Quốc (+10.000đ)</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="addMeat" value="Thịt Thêm">
+                        <label class="form-check-label" for="addMeat">Thịt Thêm Phần (+20.000đ)</label>
+                    </div>
+
+                    <!-- Ghi chú món ăn -->
+                    <div class="option-title">Ghi Chú Cho Đầu Bếp</div>
+                    <input type="text" id="cookingNote" class="form-control form-control-sm" placeholder="Ví dụ: Ít hành, không lấy rau củ, chừa nước sốt...">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-danger rounded-pill px-4" style="background: #d32f2f;" onclick="addToCartFromModal()">Thêm Vào Giỏ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container text-center text-md-start">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <h4>Yummy Food Restaurant</h4>
+                    <p>Địa chỉ: 456 Đường Cầu Giấy, Hà Nội<br>Hotline giao hàng: 1900 6789</p>
+                </div>
+                <div class="col-md-6 mb-3 text-md-end">
+                    <h4>Thời Gian Phục Vụ</h4>
+                    <p>07:00 AM - 22:00 PM (Tất cả các ngày trong tuần)</p>
+                </div>
+            </div>
+            <hr style="border-color: rgba(255,255,255,0.1);">
+            <p class="text-center m-0">© 2026 Yummy Food App. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- JAVASCRIPT XỬ LÝ DỮ LIỆU & TÍNH NĂNG -->
+    <script>
+    // Danh sách 100% ĐỒ ĂN
+    const products = [
+        // Cơm Văn Phòng
+        { id: 1, category: 'com', name: 'Cơm Tấm Sườn Bì Chả', price: 55000, img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop', desc: 'Sườn nướng mật ong vàng ươm, bì dẻo thơm và chả trứng hấp béo ngậy.' },
+        { id: 2, category: 'com', name: 'Cơm Gà Xối Mỡ Da Giòn', price: 50000, img: 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=500&auto=format&fit=crop', desc: 'Đùi gà xối mỡ lớp da giòn rụm, thịt bên trong mềm mọng đi kèm cơm dẻo.' },
+        { id: 3, category: 'com', name: 'Cơm Bò Lúc Lắc Măng Tây', price: 65000, img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=500&auto=format&fit=crop', desc: 'Thịt bò Mỹ thái quân cờ xào sốt tiêu đen măng tây đậm đà.' },
+
+        // Mỳ & Phở
+        { id: 4, category: 'mi', name: 'Phở Bò Tái Nạm Hà Nội', price: 55000, img: 'https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=500&auto=format&fit=crop', desc: 'Nước dùng ninh từ xương ống 24h ngọt thanh, thịt bò mềm chuẩn vị.' },
+        { id: 5, category: 'mi', name: 'Mỳ Ý Sốt Bò Băm Bolognaise', price: 60000, img: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500&auto=format&fit=crop', desc: 'Sợi mỳ Dai Ý hòa quyện cùng sốt cà chua thịt bò băm thơm phức Phô mai.' },
+        { id: 6, category: 'mi', name: 'Mỳ Cay Hải Sản Hàn Quốc', price: 58000, img: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=500&auto=format&fit=crop', desc: 'Mỳ Koreno kết hợp tôm, mực tươi mọng và nước dùng cay nồng.' },
+
+        // Lẩu & Nướng
+        { id: 7, category: 'lau', name: 'Lẩu Thái Hải Sản (Phần 1 Người)', price: 89000, img: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500&auto=format&fit=crop', desc: 'Chua cay chuẩn vị Thái đi kèm tôm, mực, viên thả lẩu và rau nấm tươi.' },
+        { id: 8, category: 'lau', name: 'Combo Thịt Nướng Hàn Quốc', price: 120000, img: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop', desc: 'Ba chỉ bò Mỹ & Nạc vai heo ướp sốt Bulgogi nướng thơm phức.' },
+
+        // Đồ Ăn Vặt
+        { id: 9, category: 'anvat', name: 'Burger Bò Phô Mai Melted', price: 65000, img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop', desc: 'Thịt bò xay nướng mọng nước phủ lớp phô mai Cheddar tan chảy.' },
+        { id: 10, category: 'anvat', name: 'Gà Rán Số Tỏi Cay (3 Miếng)', price: 75000, img: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=500&auto=format&fit=crop', desc: 'Lớp vỏ giòn rụm thấm đượm sốt mắm tỏi ớt đậm đà phong cách Hàn Quốc.' },
+        { id: 11, category: 'anvat', name: 'Pizza Hải Sản Phô Mai Sợi', price: 139000, img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&auto=format&fit=crop', desc: 'Đế pizza giòn xốp phủ tôm, mực tươi và ngập tràn phô mai Mozzarella.' },
+
+        // Tráng Miệng
+        { id: 12, category: 'trangmieng', name: 'Bánh Flan Trứng Sữa Nướng', price: 25000, img: 'https://images.unsplash.com/photo-1528975604071-b4dc52a2d18c?w=500&auto=format&fit=crop', desc: 'Flan mềm mịn đượm vị đắng nhẹ của cà phê Caramel.' },
+        { id: 13, category: 'trangmieng', name: 'Chè Thái Trái Cây Sầu Riêng', price: 35000, img: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=500&auto=format&fit=crop', desc: 'Thơm nức mùi múi sầu riêng tươi hòa quyện cùng các loại thạch dẻo.' }
+    ];
+
+    let cart = [];
+    let currentProduct = null;
+
+    // Render danh sách món ăn
+    function renderProducts(items) {
+        const listContainer = document.getElementById('productList');
+        listContainer.innerHTML = '';
+
+        if(items.length === 0) {
+            listContainer.innerHTML = `<p class="text-center text-muted my-5">Không tìm thấy món ăn nào phù hợp!</p>`;
+            return;
+        }
+
+        items.forEach(product => {
+            listContainer.innerHTML += `
+                <div class="col-md-4">
+                    <div class="product-card">
+                        <div class="product-img-wrap">
+                            <img src="${product.img}" alt="${product.name}">
+                        </div>
+                        <div class="product-info">
+                            <h5>${product.name}</h5>
+                            <p>${product.desc}</p>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="price">${product.price.toLocaleString('vi-VN')}đ</span>
+                            </div>
+                            <button class="btn-detail" onclick="openDetailModal(${product.id})">Xem Chi Tiết & Đặt</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    // Lọc theo danh mục
+    function filterCategory(category, element) {
+        document.querySelectorAll('.category-card').forEach(el => el.classList.remove('active'));
+        element.classList.add('active');
+
+        if (category === 'all') {
+            renderProducts(products);
+        } else {
+            const filtered = products.filter(p => p.category === category);
+            renderProducts(filtered);
+        }
+    }
+
+    // Tìm kiếm món ăn
+    function searchFood() {
+        const term = document.getElementById('searchInput').value.toLowerCase();
+        const filtered = products.filter(p => p.name.toLowerCase().includes(term));
+        renderProducts(filtered);
+    }
+
+    // Mở Modal xem chi tiết
+    function openDetailModal(id) {
+        currentProduct = products.find(p => p.id === id);
+        document.getElementById('modalTitle').innerText = currentProduct.name;
+        document.getElementById('modalImg').src = currentProduct.img;
+        document.getElementById('modalDesc').innerText = currentProduct.desc;
+        document.getElementById('modalPrice').innerText = currentProduct.price.toLocaleString('vi-VN') + 'đ';
+
+        // Reset inputs
+        document.getElementById('addEgg').checked = false;
+        document.getElementById('addKimchi').checked = false;
+        document.getElementById('addMeat').checked = false;
+        document.getElementById('cookingNote').value = '';
+
+        const modal = new bootstrap.Modal(document.getElementById('productModal'));
+        modal.show();
+    }
+
+    // Thêm vào giỏ từ Modal
+    function addToCartFromModal() {
+        if (!currentProduct) return;
+
+        let noteList = [];
+        
+        // Mức cay
+        const spicy = document.querySelector('input[name="spicy"]:checked').value;
+        noteList.push(`Độ cay: ${spicy}`);
+
+        // Toppings / Món thêm
+        let extraPrice = 0;
+        let toppings = [];
+
+        if (document.getElementById('addEgg').checked) {
+            extraPrice += 7000;
+            toppings.push("Trứng Ốp La");
+        }
+        if (document.getElementById('addKimchi').checked) {
+            extraPrice += 10000;
+            toppings.push("Kim Chi");
+        }
+        if (document.getElementById('addMeat').checked) {
+            extraPrice += 20000;
+            toppings.push("Thịt Thêm");
+        }
+
+        if(toppings.length > 0) {
+            noteList.push(`Thêm: ${toppings.join(', ')}`);
+        }
+
+        // Ghi chú của khách
+        const userNote = document.getElementById('cookingNote').value.trim();
+        if(userNote !== '') {
+            noteList.push(`Ghi chú: ${userNote}`);
+        }
+
+        const itemPrice = currentProduct.price + extraPrice;
+        const note = noteList.join(' | ');
+
+        cart.push({
+            name: currentProduct.name,
+            price: itemPrice,
+            note: note
+        });
+
+        updateCartUI();
+
+        // Đóng Modal
+        const modalEl = document.getElementById('productModal');
+        const modal = bootstrap.Modal.getInstance(modalEl);
+        modal.hide();
+    }
+
+    // Cập nhật giao diện Giỏ Hàng
+    function updateCartUI() {
+        const cartList = document.getElementById('cartItemsList');
+        const badge = document.getElementById('cartBadge');
+        const totalPriceEl = document.getElementById('totalPrice');
+
+        badge.innerText = cart.length;
+
+        if (cart.length === 0) {
+            cartList.innerHTML = `<p class="text-center text-muted m-0">Chưa có món nào trong giỏ hàng.</p>`;
+            totalPriceEl.innerText = '0đ';
+            return;
+        }
+
+        let html = '';
+        let total = 0;
+
+        cart.forEach((item, index) => {
+            total += item.price;
+            html += `
+                <div class="cart-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="m-0 fw-bold">${item.name}</h6>
+                        <small class="text-muted">${item.note}</small>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="fw-bold text-danger">${item.price.toLocaleString('vi-VN')}đ</span>
+                        <button class="btn btn-sm btn-outline-danger border-0" onclick="removeFromCart(${index})"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+            `;
+        });
+
+        cartList.innerHTML = html;
+        totalPriceEl.innerText = total.toLocaleString('vi-VN') + 'đ';
+    }
+
+    // Xóa khỏi giỏ
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        updateCartUI();
+    }
+
+    // Thanh toán
+    function checkout() {
+        if (cart.length === 0) {
+            alert('Giỏ hàng của bạn đang trống!');
+            return;
+        }
+        alert('Cảm ơn bạn đã đặt món! Bếp đang chuẩn bị đồ ăn và sẽ giao đến trong vòng 30 phút.');
+        cart = [];
+        updateCartUI();
+    }
+
+    // Khởi tạo hiển thị
+    renderProducts(products);
+    </script>
+</body>
+</html>
